@@ -1,5 +1,6 @@
 from django.test import TestCase
-from candidator.models import Topic, Position
+from candidator.models import Topic, Position, TakenPosition
+from popolo.models import Person
 
 # Create your tests here.
 
@@ -36,3 +37,29 @@ class PositionTestCase(TestCase):
         self.assertEquals(position.topic, self.topic)
         self.assertEquals(position.label, u"Yes")
         self.assertEquals(position.description, u"Yes, means that it is considered a good thing for marijuana to be legalized")
+
+
+
+class TakenPositionTestCase(TestCase):
+    def setUp(self):
+        self.topic = Topic.objects.create(
+            label=u"Should marijuana be legalized?",
+            description=u"This is a description of the topic of marijuana")
+        self.position = Position.objects.create(
+            topic=self.topic,
+            label=u"Yes",
+            description=u"Yes, means that it is considered a good thing for marijuana to be legalized"
+        )
+        self.person = Person.objects.create(name=u"Felipe")
+
+    def test_it_can_be_instanciated(self):
+        '''A taken position can be instanciated'''
+        taken_position = TakenPosition.objects.create(
+            topic=self.topic,
+            position=self.position,
+            person=self.person
+        )
+        self.assertTrue(taken_position)
+        self.assertEquals(taken_position.topic, self.topic)
+        self.assertEquals(taken_position.position, self.position)
+        self.assertEquals(taken_position.person, self.person)
