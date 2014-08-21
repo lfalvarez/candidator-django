@@ -30,5 +30,6 @@ def runtests():
     test_runner = TestRunner(verbosity=1, interactive=True, failfast=False)
     failures = test_runner.run_tests(['candidator', ])
     sys.exit(failures)
-    if __name__ == '__main__':
-        runtests()
+
+if __name__ == '__main__':
+    runtests()
