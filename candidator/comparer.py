@@ -11,7 +11,7 @@ class InformationHolder():
         self.topics.append(topic)
 
     def add_position(self, position):
-        self.positions[position.slug] = position
+        self.positions[position.topic.slug] = position
 
     def add_person(self, person):
         if self.persons:
@@ -42,6 +42,10 @@ class Comparer():
                 "match": r
             }
         return comparison
+
+    def compare(self, information_holder):
+        self.topics = information_holder.topics
+        return self.several(information_holder.persons, information_holder.positions)
 
     def several(self, persons, positions):
         result = {}

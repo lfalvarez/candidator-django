@@ -100,11 +100,18 @@ class ComparisonTestCase(TestCase):
     def test_information_holder(self):
         '''InformationHolder'''
         information_holder = InformationHolder()
-
-        information_holder.add_position(self.marihuana_topic)
-        information_holder.add_position(self.religion_topic)
-        self.assertEquals(information_holder.positions[self.marihuana_topic.slug], self.marihuana_topic)
-        self.assertEquals(information_holder.positions[self.religion_topic.slug], self.religion_topic)
+        marihuana_position = TakenPosition(
+            topic=self.marihuana_topic,
+            position=self.marihuana_yes,
+            )
+        religion_position = TakenPosition(
+            topic=self.religion_topic,
+            position=self.religion_yes,
+            )
+        information_holder.add_position(marihuana_position)
+        information_holder.add_position(religion_position)
+        self.assertEquals(information_holder.positions[self.marihuana_topic.slug], marihuana_position)
+        self.assertEquals(information_holder.positions[self.religion_topic.slug], religion_position)
 
         information_holder.add_person(self.person1)
         self.assertEquals(information_holder.persons, self.person1)
@@ -115,6 +122,56 @@ class ComparisonTestCase(TestCase):
 
         information_holder.add_topic(self.marihuana_topic)
         self.assertEquals(information_holder.topics, [self.marihuana_topic])
+
+    def test_compare_with_information_holder(self):
+        '''Compare using InformationHolder'''
+        information_holder = InformationHolder()
+        marihuana_position = TakenPosition(
+            topic=self.marihuana_topic,
+            position=self.marihuana_yes,
+            )
+        religion_position = TakenPosition(
+            topic=self.religion_topic,
+            position=self.religion_yes,
+            )
+        information_holder.add_position(marihuana_position)
+        information_holder.add_position(religion_position)
+        information_holder.add_person(self.person1)
+        information_holder.add_person(self.person2)
+        information_holder.add_topic(self.marihuana_topic)
+        information_holder.add_topic(self.religion_topic)
+        comparer = Comparer()
+        result = comparer.compare(information_holder)
+        expected_result = {
+            self.person1.slug: {
+                "explanation": {
+                    self.marihuana_topic.slug: {
+                        "topic": self.marihuana_topic,
+                        "match": True
+                    },
+                    self.religion_topic.slug: {
+                        "topic": self.religion_topic,
+                        "match": False
+                    }
+                },
+                "percentage": 0.5
+
+            },
+            self.person2.slug: {
+                "explanation": {
+                    self.marihuana_topic.slug: {
+                        "topic": self.marihuana_topic,
+                        "match": False
+                    },
+                    self.religion_topic.slug: {
+                        "topic": self.religion_topic,
+                        "match": True
+                    }
+                },
+                "percentage": 0.5
+            }
+        }
+        self.assertEquals(result, expected_result)
 
     def test_compare_several(self):
         '''Compare with several persons'''
