@@ -20,3 +20,20 @@ class Comparer():
                 "match": r
             }
         return comparison
+
+    def several(self, persons, positions):
+        result = {
+
+        }
+        for person in persons:
+            explanation = self.one_on_one(person, positions)
+            amount_of_matches = 0
+            for t in explanation:
+                if explanation[t]["match"]:
+                    amount_of_matches += 1
+            percentage = float(amount_of_matches) / float(len(explanation))
+            result[person.slug] = {
+                "explanation": explanation,
+                "percentage": percentage
+            }
+        return result

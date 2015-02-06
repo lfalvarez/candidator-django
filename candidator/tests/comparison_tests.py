@@ -96,3 +96,60 @@ class ComparisonTestCase(TestCase):
             }
         }
         self.assertEquals(result, expected_result)
+
+    def test_compare_several(self):
+        '''Compare with several persons'''
+        marihuana_position = TakenPosition(
+            topic=self.marihuana_topic,
+            position=self.marihuana_yes,
+            )
+        religion_position = TakenPosition(
+            topic=self.religion_topic,
+            position=self.religion_yes,
+            )
+        positions = {
+            self.marihuana_topic.slug: marihuana_position,
+            self.religion_topic.slug: religion_position
+        }
+        topics = [
+            self.marihuana_topic,
+            self.religion_topic
+        ]
+
+        persons = [self.person1, self.person2]
+
+        expected_result = {
+            self.person1.slug: {
+                "explanation": {
+                    self.marihuana_topic.slug: {
+                        "topic": self.marihuana_topic,
+                        "match": True
+                    },
+                    self.religion_topic.slug: {
+                        "topic": self.religion_topic,
+                        "match": False
+                    }
+                },
+                "percentage": 0.5
+
+            },
+            self.person2.slug: {
+                "explanation": {
+                    self.marihuana_topic.slug: {
+                        "topic": self.marihuana_topic,
+                        "match": False
+                    },
+                    self.religion_topic.slug: {
+                        "topic": self.religion_topic,
+                        "match": True
+                    }
+                },
+                "percentage": 0.5
+            }
+        }
+        comparer = Comparer()
+        comparer.topics = topics
+        result = comparer.several(persons, positions)
+
+        self.assertEquals(expected_result[self.person1.slug], result[self.person1.slug])
+        self.assertEquals(expected_result[self.person2.slug], result[self.person2.slug])
