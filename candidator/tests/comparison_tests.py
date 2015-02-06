@@ -1,7 +1,7 @@
 from django.test import TestCase
 from candidator.models import Topic, Position, TakenPosition
 from popolo.models import Person
-from candidator.comparer import Comparer
+from candidator.comparer import Comparer, InformationHolder
 
 
 class ComparisonTestCase(TestCase):
@@ -96,6 +96,15 @@ class ComparisonTestCase(TestCase):
             }
         }
         self.assertEquals(result, expected_result)
+
+    def test_information_holder(self):
+        '''InformationHolder'''
+        information_holder = InformationHolder()
+
+        information_holder.add_position(self.marihuana_topic)
+        information_holder.add_position(self.religion_topic)
+        self.assertEquals(information_holder.positions[self.marihuana_topic.slug], self.marihuana_topic)
+        self.assertEquals(information_holder.positions[self.religion_topic.slug], self.religion_topic)
 
     def test_compare_several(self):
         '''Compare with several persons'''

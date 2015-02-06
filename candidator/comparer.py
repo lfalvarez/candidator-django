@@ -1,6 +1,14 @@
 from candidator.models import TakenPosition
 
 
+class InformationHolder():
+    def __init__(self, *args, **kwargs):
+        self.positions = {}
+
+    def add_position(self, position):
+        self.positions[position.slug] = position
+
+
 class Comparer():
     def __init__(self, *args, **kwargs):
         self.topics = None
@@ -22,9 +30,7 @@ class Comparer():
         return comparison
 
     def several(self, persons, positions):
-        result = {
-
-        }
+        result = {}
         for person in persons:
             explanation = self.one_on_one(person, positions)
             amount_of_matches = 0
