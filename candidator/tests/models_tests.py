@@ -1,8 +1,7 @@
 from django.test import TestCase
-from candidator.models import Topic, Position, TakenPosition
+from candidator.models import Topic, Position, TakenPosition, Category
 from popolo.models import Person
 
-# Create your tests here.
 
 class TopicTestCase(TestCase):
     def setUp(self):
@@ -17,7 +16,6 @@ class TopicTestCase(TestCase):
         self.assertTrue(topic)
         self.assertEquals(topic.label, u"Should marijuana be legalized?")
         self.assertEquals(topic.description, u"This is a description of the topic of marijuana")
-
 
 
 class PositionTestCase(TestCase):
@@ -37,7 +35,6 @@ class PositionTestCase(TestCase):
         self.assertEquals(position.topic, self.topic)
         self.assertEquals(position.label, u"Yes")
         self.assertEquals(position.description, u"Yes, means that it is considered a good thing for marijuana to be legalized")
-
 
 
 class TakenPositionTestCase(TestCase):
@@ -63,3 +60,35 @@ class TakenPositionTestCase(TestCase):
         self.assertEquals(taken_position.topic, self.topic)
         self.assertEquals(taken_position.position, self.position)
         self.assertEquals(taken_position.person, self.person)
+
+
+class TopicCategoryTestCase(TestCase):
+    def setUp(self):
+        self.topic1 = Topic.objects.create(
+            label=u"Should marijuana be legalized?",
+            description=u"This is a description of the topic of marijuana")
+
+        self.topic2 = Topic.objects.create(
+            label=u"Should marijuana be grown by the state?",
+            description=u"This is a description of the topic of marijuana")
+
+        self.topic3 = Topic.objects.create(
+            label=u"Should regligion be taught at schools?",
+            description=u"This is a description of the topic of religion")
+
+        self.topic4 = Topic.objects.create(
+            label=u"What do you think of morality?",
+            description=u"This is a description of the topic of religion")
+
+    def test_it_cant_be_instanciated(self):
+        '''I can instanciate a category'''
+        category = Category.objects.create(name=u"Marihuana Category")
+        category.topics.add(self.topic1)
+        category.topics.add(self.topic2)
+
+        self.assertTrue(category)
+        self.assertEquals(category.name, u"Marihuana Category")
+        self.assertTrue(category.slug)
+        self.assertEquals(category.slug, u"marihuana-category")
+        self.assertEquals(self.topic1.category, category)
+        self.assertEquals(self.topic2.category, category)
