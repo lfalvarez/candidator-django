@@ -7,6 +7,7 @@ class Topic(models.Model):
     label = models.CharField(max_length=512)
     description = models.TextField()
     category = models.ForeignKey('Category', related_name="topics", null=True)
+    slug = AutoSlugField(populate_from='label')
 
 
 class Position(models.Model):

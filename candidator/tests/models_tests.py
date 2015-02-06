@@ -16,6 +16,7 @@ class TopicTestCase(TestCase):
         self.assertTrue(topic)
         self.assertEquals(topic.label, u"Should marijuana be legalized?")
         self.assertEquals(topic.description, u"This is a description of the topic of marijuana")
+        self.assertTrue(topic.slug)
 
 
 class PositionTestCase(TestCase):
