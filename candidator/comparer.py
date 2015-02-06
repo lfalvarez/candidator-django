@@ -5,6 +5,10 @@ class InformationHolder():
     def __init__(self, *args, **kwargs):
         self.positions = {}
         self.persons = None
+        self.topics = []
+
+    def add_topic(self, topic):
+        self.topics.append(topic)
 
     def add_position(self, position):
         self.positions[position.slug] = position

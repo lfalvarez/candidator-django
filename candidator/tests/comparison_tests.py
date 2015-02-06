@@ -113,6 +113,9 @@ class ComparisonTestCase(TestCase):
         information_holder.add_person(self.person3)
         self.assertEquals(information_holder.persons, [self.person1, self.person2, self.person3])
 
+        information_holder.add_topic(self.marihuana_topic)
+        self.assertEquals(information_holder.topics, [self.marihuana_topic])
+
     def test_compare_several(self):
         '''Compare with several persons'''
         marihuana_position = TakenPosition(
