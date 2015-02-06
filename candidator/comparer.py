@@ -2,9 +2,12 @@ from candidator.models import TakenPosition
 
 
 class Comparer():
-    def one_on_one(self, person, topics, positions):
+    def __init__(self, *args, **kwargs):
+        self.topics = None
+
+    def one_on_one(self, person, positions):
         comparison = {}
-        for topic in topics:
+        for topic in self.topics:
             person_taken_positions = TakenPosition.objects.get(
                 person=person,
                 topic=topic

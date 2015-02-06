@@ -83,7 +83,8 @@ class ComparisonTestCase(TestCase):
             self.marihuana_topic,
             self.religion_topic
         ]
-        result = comparer.one_on_one(self.person1, topics, positions)
+        comparer.topics = topics
+        result = comparer.one_on_one(self.person1, positions)
         expected_result = {
             self.marihuana_topic.slug: {
                 "topic": self.marihuana_topic,
