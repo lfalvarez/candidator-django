@@ -4,7 +4,7 @@ from candidator.models import TakenPosition
 class InformationHolder():
     def __init__(self, *args, **kwargs):
         self.positions = {}
-        self.persons = None
+        self.persons = []
         self.topics = []
 
     def add_topic(self, topic):
@@ -14,13 +14,7 @@ class InformationHolder():
         self.positions[position.topic.slug] = position
 
     def add_person(self, person):
-        if self.persons:
-            if isinstance(self.persons, list):
-                self.persons.append(person)
-            else:
-                self.persons = [self.persons, person]
-        else:
-            self.persons = person
+        self.persons.append(person)
 
 
 class Comparer():

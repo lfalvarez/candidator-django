@@ -114,7 +114,7 @@ class ComparisonTestCase(TestCase):
         self.assertEquals(information_holder.positions[self.religion_topic.slug], religion_position)
 
         information_holder.add_person(self.person1)
-        self.assertEquals(information_holder.persons, self.person1)
+        self.assertEquals(information_holder.persons, [self.person1])
         information_holder.add_person(self.person2)
         self.assertEquals(information_holder.persons, [self.person1, self.person2])
         information_holder.add_person(self.person3)
