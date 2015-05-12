@@ -50,7 +50,7 @@ class Comparer():
                 if explanation[t]["match"]:
                     amount_of_matches += 1
             percentage = float(amount_of_matches) / float(len(explanation))
-            result[person.slug] = {
+            result[person.id] = {
                 "explanation": explanation,
                 "percentage": percentage
             }

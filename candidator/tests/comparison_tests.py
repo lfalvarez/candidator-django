@@ -143,7 +143,7 @@ class ComparisonTestCase(TestCase):
         comparer = Comparer()
         result = comparer.compare(information_holder)
         expected_result = {
-            self.person1.slug: {
+            self.person1.id: {
                 "explanation": {
                     self.marihuana_topic.slug: {
                         "topic": self.marihuana_topic,
@@ -157,7 +157,7 @@ class ComparisonTestCase(TestCase):
                 "percentage": 0.5
 
             },
-            self.person2.slug: {
+            self.person2.id: {
                 "explanation": {
                     self.marihuana_topic.slug: {
                         "topic": self.marihuana_topic,
@@ -195,7 +195,7 @@ class ComparisonTestCase(TestCase):
         persons = [self.person1, self.person2]
 
         expected_result = {
-            self.person1.slug: {
+            self.person1.id: {
                 "explanation": {
                     self.marihuana_topic.slug: {
                         "topic": self.marihuana_topic,
@@ -209,7 +209,7 @@ class ComparisonTestCase(TestCase):
                 "percentage": 0.5
 
             },
-            self.person2.slug: {
+            self.person2.id: {
                 "explanation": {
                     self.marihuana_topic.slug: {
                         "topic": self.marihuana_topic,
@@ -227,5 +227,5 @@ class ComparisonTestCase(TestCase):
         comparer.topics = topics
         result = comparer.several(persons, positions)
 
-        self.assertEquals(expected_result[self.person1.slug], result[self.person1.slug])
-        self.assertEquals(expected_result[self.person2.slug], result[self.person2.slug])
+        self.assertEquals(expected_result[self.person1.id], result[self.person1.id])
+        self.assertEquals(expected_result[self.person2.id], result[self.person2.id])
