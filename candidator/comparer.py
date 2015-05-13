@@ -6,6 +6,7 @@ class InformationHolder():
         self.positions = {}
         self.persons = []
         self.topics = []
+        self.categories = []
 
     def add_topic(self, topic):
         self.topics.append(topic)
@@ -16,14 +17,28 @@ class InformationHolder():
     def add_person(self, person):
         self.persons.append(person)
 
+    def add_category(self, category):
+        self.categories.append(category)
+        for topic in category.topics.all():
+            self.add_topic(topic)
+
+    def positions_by(self, category):
+        result = {}
+        for topic_slug in self.positions:
+            if self.positions[topic_slug].topic.category == category:
+                result[topic_slug] = self.positions[topic_slug]
+        return result
+
 
 class Comparer():
     def __init__(self, *args, **kwargs):
         self.topics = None
 
-    def one_on_one(self, person, positions):
+    def one_on_one(self, person, positions, topics=None):
         comparison = {}
-        for topic in self.topics:
+        if topics is None:
+            topics = self.topics
+        for topic in topics:
             person_taken_positions = TakenPosition.objects.get(
                 person=person,
                 topic=topic
@@ -39,9 +54,39 @@ class Comparer():
 
     def compare(self, information_holder):
         self.topics = information_holder.topics
-        return self.several(information_holder.persons, information_holder.positions)
+        if not information_holder.categories:
+            return self.several(information_holder.persons, information_holder.positions)
+        return self.compare_information_holder(information_holder)
 
-    def several(self, persons, positions):
+    def compare_information_holder(self, information_holder):
+        result = {}
+        persons = information_holder.persons
+        categories = information_holder.categories
+        for person in persons:
+            result[person.id] = {}
+            amount_of_matches_in_category = 0
+            comparisons_per_category = 0
+            explanations_per_person = {}
+            for category in categories:
+                positions = information_holder.positions_by(category)
+                explanation = self.one_on_one(person, positions, topics=category.topics.all())
+                explanations_per_person[category.slug] = explanation
+
+                for t in explanation:
+                    if explanation[t]["match"]:
+                        amount_of_matches_in_category += 1
+                comparisons_per_category += len(explanation)
+
+            if comparisons_per_category:
+                percentage = float(amount_of_matches_in_category) / float(comparisons_per_category)
+            else:
+                percentage = 0
+
+            result[person.id] = {"explanation": explanations_per_person,
+                                 "percentage": percentage}
+        return result
+
+    def several(self, persons, positions, categories=None):
         result = {}
         for person in persons:
             explanation = self.one_on_one(person, positions)
@@ -49,7 +94,11 @@ class Comparer():
             for t in explanation:
                 if explanation[t]["match"]:
                     amount_of_matches += 1
-            percentage = float(amount_of_matches) / float(len(explanation))
+            len_explanation = len(explanation)
+            if len_explanation:
+                percentage = float(amount_of_matches) / float(len_explanation)
+            else:
+                percentage = 0
             result[person.id] = {
                 "explanation": explanation,
                 "percentage": percentage
