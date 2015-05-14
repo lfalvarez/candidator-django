@@ -63,7 +63,6 @@ class Comparer():
         persons = information_holder.persons
         categories = information_holder.categories
         for person in persons:
-            result[person.id] = {}
             amount_of_matches_in_category = 0
             comparisons_per_category = 0
             explanations_per_person = {}
@@ -82,9 +81,17 @@ class Comparer():
             else:
                 percentage = 0
 
-            result[person.id] = {"explanation": explanations_per_person,
+            result[person.id] = {"person": person,
+                                 "explanation": explanations_per_person,
                                  "percentage": percentage}
-        return result
+
+        def key(person_id):
+            return result[person_id]['percentage']
+        keys = sorted(result, key=key, reverse=True)
+        ordered_result = []
+        for key in keys:
+            ordered_result.append(result[key])
+        return ordered_result
 
     def several(self, persons, positions, categories=None):
         result = {}

@@ -48,7 +48,14 @@ class ComparisonTestCase(TestCase):
             topic=self.gay_marriage_topic,
             label=u"GayMarriageNo"
         )
-
+        #
+        #   topic\person   |  person1 |  person2  |  person3
+        #===================================================
+        #   marihuana      |    y     |    n      |    n
+        #   chamomille     |    y     |    n      |    n
+        #   religion       |    n     |    y      |    n
+        #   gay marriage   |    y     |    y      |    y
+        #
         self.person1_chamomile_yes = TakenPosition.objects.create(
             topic=self.chamomile_topic,
             position=self.chamomile_yes,
@@ -73,9 +80,9 @@ class ComparisonTestCase(TestCase):
             person=self.person1
         )
 
-        self.person2_chamomile_yes = TakenPosition.objects.create(
+        self.person2_chamomile_no = TakenPosition.objects.create(
             topic=self.chamomile_topic,
-            position=self.chamomile_yes,
+            position=self.chamomile_no,
             person=self.person2
         )
 
@@ -250,11 +257,11 @@ class ComparisonTestCase(TestCase):
 
         marihuana_position = TakenPosition(
             topic=self.marihuana_topic,
-            position=self.marihuana_yes,
+            position=self.marihuana_no,
             )
         religion_position = TakenPosition(
             topic=self.religion_topic,
-            position=self.religion_yes,
+            position=self.religion_no,
             )
 
         chamomile_position = TakenPosition(
@@ -271,66 +278,101 @@ class ComparisonTestCase(TestCase):
         information_holder.add_position(gay_marriage_position)
         information_holder.add_person(self.person1)
         information_holder.add_person(self.person2)
+        information_holder.add_person(self.person3)
         information_holder.add_category(herbs_category)
         information_holder.add_category(others_category)
         comparer = Comparer()
         result = comparer.compare(information_holder)
-        expected_result = {
-            self.person1.id: {
-                "explanation": {
-                    herbs_category.slug: {
+        #
+        #   topic\person   |  person1 |  person2  |  person3  | my positions
+        #====================================================================
+        #   marihuana      |    y     |    n      |    n      |    n
+        #   chamomille     |    y     |    n      |    n      |    n
+        #   religion       |    n     |    y      |    n      |    n
+        #   gay marriage   |    y     |    y      |    y      |    y
+        #====================================================================
+        #     Afinity %    |   50%    |   75%     |   100%    |    N/A
+        #
+        self.maxDiff = None
+        expected_result = [{"person": self.person3,
+                            "explanation": {
+                                herbs_category.slug: {
 
-                        self.marihuana_topic.slug: {
-                            "topic": self.marihuana_topic,
-                            "match": True
-                        },
-                        self.chamomile_topic.slug: {
-                            "topic": self.chamomile_topic,
-                            "match": False
-                        },
-                    },
-                    others_category.slug: {
+                                    self.marihuana_topic.slug: {
+                                        "topic": self.marihuana_topic,
+                                        "match": True
+                                    },
+                                    self.chamomile_topic.slug: {
+                                        "topic": self.chamomile_topic,
+                                        "match": True
+                                    },
+                                },
+                                others_category.slug: {
+                                    self.religion_topic.slug: {
+                                        "topic": self.religion_topic,
+                                        "match": True
+                                    },
+                                    self.gay_marriage_topic.slug: {
+                                        "topic": self.gay_marriage_topic,
+                                        "match": True
+                                    }
+                                }
+                            },
+                            "percentage": 1.0
+                            },
+                           {"person": self.person2,
+                            "explanation": {
+                                herbs_category.slug: {
 
-                        self.religion_topic.slug: {
-                            "topic": self.religion_topic,
-                            "match": False
-                        },
-                        self.gay_marriage_topic.slug: {
-                            "topic": self.gay_marriage_topic,
-                            "match": True
-                        }
-                    }
-                },
-                "percentage": 0.5
+                                    self.marihuana_topic.slug: {
+                                        "topic": self.marihuana_topic,
+                                        "match": True
+                                    },
+                                    self.chamomile_topic.slug: {
+                                        "topic": self.chamomile_topic,
+                                        "match": True
+                                    },
+                                },
+                                others_category.slug: {
+                                    self.religion_topic.slug: {
+                                        "topic": self.religion_topic,
+                                        "match": False
+                                    },
+                                    self.gay_marriage_topic.slug: {
+                                        "topic": self.gay_marriage_topic,
+                                        "match": True
+                                    }
+                                }
+                            },
+                            "percentage": 0.75
+                            },
+                           {"person": self.person1,
+                            "explanation": {
+                                herbs_category.slug: {
 
-            },
-            self.person2.id: {
-                "explanation": {
-                    herbs_category.slug: {
+                                    self.marihuana_topic.slug: {
+                                        "topic": self.marihuana_topic,
+                                        "match": False
+                                    },
+                                    self.chamomile_topic.slug: {
+                                        "topic": self.chamomile_topic,
+                                        "match": False
+                                    },
+                                },
+                                others_category.slug: {
 
-                        self.marihuana_topic.slug: {
-                            "topic": self.marihuana_topic,
-                            "match": False
-                        },
-                        self.chamomile_topic.slug: {
-                            "topic": self.chamomile_topic,
-                            "match": False
-                        },
-                    },
-                    others_category.slug: {
-                        self.religion_topic.slug: {
-                            "topic": self.religion_topic,
-                            "match": True
-                        },
-                        self.gay_marriage_topic.slug: {
-                            "topic": self.gay_marriage_topic,
-                            "match": True
-                        }
-                    }
-                },
-                "percentage": 0.5
-            }
-        }
+                                    self.religion_topic.slug: {
+                                        "topic": self.religion_topic,
+                                        "match": True
+                                    },
+                                    self.gay_marriage_topic.slug: {
+                                        "topic": self.gay_marriage_topic,
+                                        "match": True
+                                    }
+                                }
+                            },
+                            "percentage": 0.5
+                            }]
         self.assertEquals(result, expected_result)
 
     def test_compare_with_information_holder(self):
