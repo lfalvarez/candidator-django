@@ -43,9 +43,9 @@ class Comparer():
             topics = self.topics
         for topic in topics:
             person_taken_positions = self.adapter.get_taken_position_by(person, topic)
-            comparison[topic.slug] = self.calculator.determine_match(topic,
-                                                          person_taken_positions.position,
-                                                          positions[topic.slug].position)
+            comparison[topic.slug] = {"topic": topic}
+            comparison[topic.slug].update(self.calculator.determine_match(person_taken_positions.position,
+                                                                          positions[topic.slug].position))
         return comparison
 
     def compare(self, information_holder):
