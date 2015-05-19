@@ -1,9 +1,10 @@
 from django.db import models
 from popolo.models import Person
 from autoslug import AutoSlugField
-from django.utils.encoding import force_bytes
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class Topic(models.Model):
     label = models.CharField(max_length=512)
     description = models.TextField()
@@ -11,18 +12,20 @@ class Topic(models.Model):
     slug = AutoSlugField(populate_from='label')
 
     def __str__(self):
-        return force_bytes('<%s>' % (self.label))
+        return '<%s>' % (self.label)
 
 
+@python_2_unicode_compatible
 class Position(models.Model):
     label = models.CharField(max_length=512)
     topic = models.ForeignKey(Topic)
     description = models.TextField()
 
     def __str__(self):
-        return force_bytes('<%s> to <%s>' % (self.label, self.topic.label))
+        return '<%s> to <%s>' % (self.label, self.topic.label)
 
 
+@python_2_unicode_compatible
 class TakenPosition(models.Model):
     topic = models.ForeignKey(Topic)
     position = models.ForeignKey(Position)
@@ -30,15 +33,16 @@ class TakenPosition(models.Model):
 
     def __str__(self):
         try:
-            return force_bytes('<%s> says <%s> to <%s>' % (self.person, self.position.label, self.topic.label))
+            return '<%s> says <%s> to <%s>' % (self.person, self.position.label, self.topic.label)
         except Person.DoesNotExist:
-            return force_bytes('%s says <%s> to <%s>' % ('Unknown', self.position.label, self.topic.label))
+            return '%s says <%s> to <%s>' % ('Unknown', self.position.label, self.topic.label)
 
 
+@python_2_unicode_compatible
 class Category(models.Model):
     name = models.CharField(max_length=1024)
     slug = AutoSlugField(populate_from='name')
 
     def __str__(self):
-        return force_bytes('<%s>' % (self.name))
+        return '<%s>' % (self.name)
 
