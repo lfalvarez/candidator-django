@@ -18,6 +18,8 @@ class TopicTestCase(TestCase):
         self.assertEquals(topic.description, u"This is a description of the topic of marijuana")
         self.assertTrue(topic.slug)
 
+        self.assertEquals(topic.__str__(), u"<Should marijuana be legalized?>")
+
 
 class PositionTestCase(TestCase):
     def setUp(self):
@@ -36,6 +38,8 @@ class PositionTestCase(TestCase):
         self.assertEquals(position.topic, self.topic)
         self.assertEquals(position.label, u"Yes")
         self.assertEquals(position.description, u"Yes, means that it is considered a good thing for marijuana to be legalized")
+
+        self.assertEquals(position.__str__(), u"<Yes> to <Should marijuana be legalized?>")
 
 
 class TakenPositionTestCase(TestCase):
@@ -61,6 +65,7 @@ class TakenPositionTestCase(TestCase):
         self.assertEquals(taken_position.topic, self.topic)
         self.assertEquals(taken_position.position, self.position)
         self.assertEquals(taken_position.person, self.person)
+        self.assertEquals(taken_position.__str__(), "<Felipe> says <Yes> to <Should marijuana be legalized?>")
 
 
 class TopicCategoryTestCase(TestCase):
@@ -93,3 +98,5 @@ class TopicCategoryTestCase(TestCase):
         self.assertEquals(category.slug, u"marihuana-category")
         self.assertEquals(self.topic1.category, category)
         self.assertEquals(self.topic2.category, category)
+
+        self.assertEquals(category.__str__(), "<Marihuana Category>")
