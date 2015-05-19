@@ -13,6 +13,7 @@ class Topic(models.Model):
     def __str__(self):
         return force_bytes('<%s>' % (self.label))
 
+
 class Position(models.Model):
     label = models.CharField(max_length=512)
     topic = models.ForeignKey(Topic)
@@ -28,7 +29,10 @@ class TakenPosition(models.Model):
     person = models.ForeignKey(Person)
 
     def __str__(self):
-        return force_bytes('<%s> says <%s> to <%s>' % (self.person, self.position.label, self.topic.label))
+        try:
+            return force_bytes('<%s> says <%s> to <%s>' % (self.person, self.position.label, self.topic.label))
+        except Person.DoesNotExist:
+            return force_bytes('%s says <%s> to <%s>' % ('Unknown', self.position.label, self.topic.label))
 
 
 class Category(models.Model):

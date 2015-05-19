@@ -67,6 +67,14 @@ class TakenPositionTestCase(TestCase):
         self.assertEquals(taken_position.person, self.person)
         self.assertEquals(taken_position.__str__(), "<Felipe> says <Yes> to <Should marijuana be legalized?>")
 
+    def test_str_without_a_person(self):
+        '''A taken position can be instantiated withouth a person therefore the __str__ method should be able to handle that'''
+        taken_position = TakenPosition(
+            topic=self.topic,
+            position=self.position,
+        )
+        self.assertEquals(taken_position.__str__(), "Unknown says <Yes> to <Should marijuana be legalized?>")
+
 
 class TopicCategoryTestCase(TestCase):
     def setUp(self):
