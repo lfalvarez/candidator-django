@@ -40,6 +40,8 @@ class PositionTestCase(TestCase):
         self.assertEquals(position.description, u"Yes, means that it is considered a good thing for marijuana to be legalized")
 
         self.assertEquals(position.__str__(), u"<Yes> to <Should marijuana be legalized?>")
+        # Reverse naming
+        self.assertIn(position, self.topic.positions.all())
 
 
 class TakenPositionTestCase(TestCase):
@@ -66,6 +68,10 @@ class TakenPositionTestCase(TestCase):
         self.assertEquals(taken_position.position, self.position)
         self.assertEquals(taken_position.person, self.person)
         self.assertEquals(taken_position.__str__(), "<Felipe> says <Yes> to <Should marijuana be legalized?>")
+
+        self.assertIn(taken_position, self.topic.taken_positions.all())
+        self.assertIn(taken_position, self.position.taken_positions.all())
+        self.assertIn(taken_position, self.person.taken_positions.all())
 
     def test_str_without_a_person(self):
         '''A taken position can be instantiated withouth a person therefore the __str__ method should be able to handle that'''

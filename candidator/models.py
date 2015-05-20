@@ -18,7 +18,7 @@ class Topic(models.Model):
 @python_2_unicode_compatible
 class Position(models.Model):
     label = models.CharField(max_length=512)
-    topic = models.ForeignKey(Topic)
+    topic = models.ForeignKey(Topic, related_name="positions")
     description = models.TextField()
 
     def __str__(self):
@@ -27,9 +27,9 @@ class Position(models.Model):
 
 @python_2_unicode_compatible
 class TakenPosition(models.Model):
-    topic = models.ForeignKey(Topic)
-    position = models.ForeignKey(Position)
-    person = models.ForeignKey(Person)
+    topic = models.ForeignKey(Topic, related_name="taken_positions")
+    position = models.ForeignKey(Position, related_name="taken_positions")
+    person = models.ForeignKey(Person, related_name="taken_positions")
 
     def __str__(self):
         try:
