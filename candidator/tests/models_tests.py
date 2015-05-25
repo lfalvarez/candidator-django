@@ -20,6 +20,26 @@ class TopicTestCase(TestCase):
 
         self.assertEquals(topic.__str__(), u"<Should marijuana be legalized?>")
 
+    def test_get_taken_position(self):
+        topic = Topic.objects.create(
+            label=u"Should marijuana be legalized?",
+            description=u"This is a description of the topic of marijuana")
+
+        position = Position.objects.create(
+            topic=topic,
+            label=u"Yes",
+            description=u"Yes, means that it is considered a good thing for marijuana to be legalized"
+        )
+        person = Person.objects.create(name=u"Felipe")
+        taken_position = TakenPosition.objects.create(
+            topic=topic,
+            position=position,
+            person=person,
+        )
+        self.assertEquals(topic.get_taken_position_for(person), taken_position)
+        taken_position.delete()
+        self.assertIsNone(topic.get_taken_position_for(person))
+
 
 class PositionTestCase(TestCase):
     def setUp(self):

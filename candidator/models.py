@@ -11,6 +11,12 @@ class Topic(models.Model):
     category = models.ForeignKey('Category', related_name="topics", null=True)
     slug = AutoSlugField(populate_from='label')
 
+    def get_taken_position_for(self, person):
+        try:
+            return TakenPosition.objects.get(topic=self, person=person)
+        except TakenPosition.DoesNotExist:
+            return None
+
     def __str__(self):
         return '<%s>' % (self.label)
 
