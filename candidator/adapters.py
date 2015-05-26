@@ -6,8 +6,11 @@ class CandidatorAdapter():
         return topic.category == category
 
     def get_taken_position_by(self, person, topic):
-        return TakenPosition.objects.get(person=person,
-                                         topic=topic)
+        try:
+            return TakenPosition.objects.get(person=person,
+                                             topic=topic)
+        except TakenPosition.DoesNotExist:
+            return None
 
 
 class CandidatorCalculator():
@@ -59,3 +62,6 @@ class CandidatorCalculator():
         The default value is "percentage".
         '''
         return self.final_results_key
+
+    def determine_not_match(self):
+        return {"match": None}

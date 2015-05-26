@@ -374,3 +374,18 @@ class ComparisonTestCase(TestCase):
                             "percentage": 0.5
                             }]
         self.assertEquals(result, expected_result)
+
+        #
+        #   topic\person   |  person1 |  person2  |  person3  | my positions
+        #====================================================================
+        #   marihuana      |    y     |    n      |    n      |    n
+        #   chamomille     |    y     |    n      |    n      |    n
+        #   religion       |    -     |    y      |    n      |    n
+        #   gay marriage   |    y     |    y      |    y      |    y
+        #====================================================================
+        #     Afinity %    |   25%    |   75%     |   100%    |    N/A
+        #
+        self.person1_religion_no.delete()
+        result = comparer.compare(information_holder)
+        self.assertEquals(result[2]['percentage'], 0.25)
+
