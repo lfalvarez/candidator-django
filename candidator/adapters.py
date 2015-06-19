@@ -19,6 +19,7 @@ class CandidatorCalculator():
     several persons's positions to your positions
     '''
     final_results_key = 'percentage'
+    order_reversed = True
 
     def determine_match(self, person_position, external_position):
         '''

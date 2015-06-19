@@ -77,7 +77,7 @@ class Comparer():
 
         def key(person_id):
             return result[person_id][self.calculator.order_by()]
-        keys = sorted(result, key=key, reverse=True)
+        keys = sorted(result, key=key, reverse=self.calculator.order_reversed)
         ordered_result = []
         for key in keys:
             ordered_result.append(result[key])
