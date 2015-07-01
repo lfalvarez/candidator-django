@@ -7,7 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 class Topic(models.Model):
     label = models.CharField(max_length=512)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     category = models.ForeignKey('Category', related_name="topics", null=True)
     slug = AutoSlugField(populate_from='label')
 
@@ -25,7 +25,7 @@ class Topic(models.Model):
 class Position(models.Model):
     label = models.CharField(max_length=512)
     topic = models.ForeignKey(Topic, related_name="positions")
-    description = models.TextField()
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return '<%s> to <%s>' % (self.label, self.topic.label)
@@ -51,4 +51,3 @@ class Category(models.Model):
 
     def __str__(self):
         return '<%s>' % (self.name)
-
