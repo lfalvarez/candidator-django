@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.test import TestCase
 from candidator.models import Topic, Position, TakenPosition, Category
 from popolo.models import Person
@@ -100,6 +101,18 @@ class TakenPositionTestCase(TestCase):
             position=self.position,
         )
         self.assertEquals(taken_position.__str__(), "Unknown says <Yes> to <Should marijuana be legalized?>")
+
+    def test_issue_243_votainteligente(self):
+        '''str TakenPosition with non unicode text'''
+        self.person.name = u"Felipe Álvarez"
+        self.topic.label = u"Debería ser legalizada?"
+        self.position.label = u"Sí, por supuesto!"
+        taken_position = TakenPosition.objects.create(
+            topic=self.topic,
+            position=self.position,
+            person=self.person
+        )
+        self.assertEquals(taken_position.__str__(), "<Felipe Álvarez> says <Sí, por supuesto!> to <Debería ser legalizada?>")
 
 
 class TopicCategoryTestCase(TestCase):

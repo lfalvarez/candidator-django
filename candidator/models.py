@@ -18,7 +18,7 @@ class Topic(models.Model):
             return None
 
     def __str__(self):
-        return '<%s>' % (self.label)
+        return u'<%s>' % (self.label)
 
 
 @python_2_unicode_compatible
@@ -28,7 +28,7 @@ class Position(models.Model):
     description = models.TextField(blank=True)
 
     def __str__(self):
-        return '<%s> to <%s>' % (self.label, self.topic.label)
+        return u'<%s> to <%s>' % (self.label, self.topic.label)
 
 
 @python_2_unicode_compatible
@@ -39,9 +39,9 @@ class TakenPosition(models.Model):
 
     def __str__(self):
         try:
-            return '<%s> says <%s> to <%s>' % (self.person, self.position.label, self.topic.label)
+            return u'<%s> says <%s> to <%s>' % (self.person, self.position.label, self.topic.label)
         except Person.DoesNotExist:
-            return '%s says <%s> to <%s>' % ('Unknown', self.position.label, self.topic.label)
+            return u'%s says <%s> to <%s>' % ('Unknown', self.position.label, self.topic.label)
 
 
 @python_2_unicode_compatible
@@ -50,4 +50,4 @@ class Category(models.Model):
     slug = AutoSlugField(populate_from='name')
 
     def __str__(self):
-        return '<%s>' % (self.name)
+        return u'<%s>' % (self.name)
