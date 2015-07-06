@@ -34,14 +34,21 @@ class Position(models.Model):
 @python_2_unicode_compatible
 class TakenPosition(models.Model):
     topic = models.ForeignKey(Topic, related_name="taken_positions")
-    position = models.ForeignKey(Position, related_name="taken_positions")
+    position = models.ForeignKey(Position, related_name="taken_positions", null=True)
     person = models.ForeignKey(Person, related_name="taken_positions")
+    description = models.TextField(blank=True)
 
     def __str__(self):
+        template_str = u'<%s> says <%s> to <%s>'
+        topic = self.topic.label
+        if self.position is None:
+            template_str = u"<%s> doesn't have an opinion in <%s>"
+            return template_str % (self.person, topic)
+        label = self.position.label
         try:
-            return u'<%s> says <%s> to <%s>' % (self.person, self.position.label, self.topic.label)
+            return template_str % (self.person, label, topic)
         except Person.DoesNotExist:
-            return u'%s says <%s> to <%s>' % ('Unknown', self.position.label, self.topic.label)
+            return template_str % ('Unknown', self.position.label, self.topic.label)
 
 
 @python_2_unicode_compatible

@@ -94,13 +94,23 @@ class TakenPositionTestCase(TestCase):
         self.assertIn(taken_position, self.position.taken_positions.all())
         self.assertIn(taken_position, self.person.taken_positions.all())
 
+    def test_can_be_saved_without_a_position(self):
+        '''We can save a TakenPosition without a position'''
+        taken_position = TakenPosition.objects.create(
+            topic=self.topic,
+            person=self.person,
+            description=u"This is a total description"
+        )
+        self.assertIsNone(taken_position.position)
+        self.assertEquals(taken_position.__str__(), u"<Felipe> doesn't have an opinion in <Should marijuana be legalized?>")
+
     def test_str_without_a_person(self):
         '''A taken position can be instantiated withouth a person therefore the __str__ method should be able to handle that'''
         taken_position = TakenPosition(
             topic=self.topic,
             position=self.position,
         )
-        self.assertEquals(taken_position.__str__(), "Unknown says <Yes> to <Should marijuana be legalized?>")
+        self.assertEquals(taken_position.__str__(), "<Unknown> says <Yes> to <Should marijuana be legalized?>")
 
     def test_issue_243_votainteligente(self):
         '''str TakenPosition with non unicode text'''
