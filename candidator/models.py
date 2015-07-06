@@ -34,7 +34,7 @@ class Position(models.Model):
 @python_2_unicode_compatible
 class TakenPosition(models.Model):
     topic = models.ForeignKey(Topic, related_name="taken_positions")
-    position = models.ForeignKey(Position, related_name="taken_positions", null=True)
+    position = models.ForeignKey(Position, related_name="taken_positions", null=True, blank=True)
     person = models.ForeignKey(Person, related_name="taken_positions")
     description = models.TextField(blank=True)
 
