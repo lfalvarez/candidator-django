@@ -389,3 +389,43 @@ class ComparisonTestCase(TestCase):
         result = comparer.compare(information_holder)
         self.assertEquals(result[2]['percentage'], 0.25)
 
+    def test_compare_one_on_one_not_giving_a_taken_position(self):
+        '''Compare one on one'''
+        comparer = Comparer()
+        marihuana_position = TakenPosition(
+            topic=self.marihuana_topic,
+            position=self.marihuana_yes,
+            )
+        positions = {
+            self.marihuana_topic.slug: marihuana_position
+        }
+        topics = [
+            self.marihuana_topic,
+            self.religion_topic
+        ]
+        comparer.topics = topics
+        result = comparer.one_on_one(self.person1, positions)
+
+        expected_result = {
+            self.marihuana_topic.slug: {
+                "topic": self.marihuana_topic,
+                "match": True
+            },
+            self.religion_topic.slug: {
+                "topic": self.religion_topic,
+                "match": False
+            }
+        }
+        self.assertEquals(result, expected_result)
+
+        # If there are no taken positions it should for a given position it should
+        # automatically determine that this is not a match.
+        taken_position = TakenPosition.objects.get(person=self.person1, topic=self.religion_topic)
+        taken_position.position = None
+        taken_position.save()
+        result2 = comparer.one_on_one(self.person1, positions)
+        self.assertFalse(result2[self.religion_topic.slug]["match"])
+
+        TakenPosition.objects.filter(topic=self.religion_topic).delete()
+        result3 = comparer.one_on_one(self.person1, positions)
+        self.assertFalse(result3[self.religion_topic.slug]["match"])

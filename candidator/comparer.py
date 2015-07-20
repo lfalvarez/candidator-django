@@ -42,11 +42,15 @@ class Comparer():
         if topics is None:
             topics = self.topics
         for topic in topics:
-            person_taken_positions = self.adapter.get_taken_position_by(person, topic)
+            candidate_taken_position = self.adapter.get_taken_position_by(person, topic)
             comparison[topic.slug] = {"topic": topic}
-            if person_taken_positions is not None:
-                comparison[topic.slug].update(self.calculator.determine_match(person_taken_positions.position,
-                                                                              positions[topic.slug].position))
+            if candidate_taken_position is not None and candidate_taken_position.position is not None:
+                users_taken_position = positions.get(topic.slug, None)
+                external_position = None
+                if users_taken_position:
+                    external_position = users_taken_position.position
+                comparison[topic.slug].update(self.calculator.determine_match(candidate_taken_position.position,
+                                                                              external_position))
             else:
                 comparison[topic.slug].update(self.calculator.determine_not_match())
         return comparison
