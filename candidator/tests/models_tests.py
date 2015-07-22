@@ -124,6 +124,16 @@ class TakenPositionTestCase(TestCase):
         )
         self.assertEquals(taken_position.__str__(), "<Felipe Álvarez> says <Sí, por supuesto!> to <Debería ser legalizada?>")
 
+    def test_taken_position_can_have_sources(self):
+        '''TakenPositions can have sources'''
+        taken_position = TakenPosition.objects.create(
+            topic=self.topic,
+            position=self.position,
+            person=self.person
+        )
+        taken_position.sources.create(url='http://link.example.org/', note='Note')
+        self.assertEqual(taken_position.sources.count(), 1)
+
 
 class TopicCategoryTestCase(TestCase):
     def setUp(self):
