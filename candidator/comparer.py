@@ -69,13 +69,14 @@ class Comparer():
             for category in categories:
                 positions = information_holder.positions_by(category)
                 explanation = self.one_on_one(person, positions, topics=category.topics.all())
-                explanations_per_person[category.slug] = explanation
+                explanations_per_person[category.slug] = {
+                    'category': category,
+                    'per_topic': explanation
+                }
                 points_per_person += self.calculator.determine_points_per_person_per_category(explanation)
                 comparisons_per_category += len(explanation)
-
             result[person.id] = {"person": person,
                                  "explanation": explanations_per_person}
-
             result[person.id].update(self.calculator.
                 determine_total_result_per_person(points_per_person, comparisons_per_category))
 

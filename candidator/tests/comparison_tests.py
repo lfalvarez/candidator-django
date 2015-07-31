@@ -297,24 +297,30 @@ class ComparisonTestCase(TestCase):
         expected_result = [{"person": self.person3,
                             "explanation": {
                                 herbs_category.slug: {
-
-                                    self.marihuana_topic.slug: {
-                                        "topic": self.marihuana_topic,
-                                        "match": True
-                                    },
-                                    self.chamomile_topic.slug: {
-                                        "topic": self.chamomile_topic,
-                                        "match": True
-                                    },
+                                    "category": herbs_category,
+                                    "per_topic": {
+                                        self.marihuana_topic.slug: {
+                                            "topic": self.marihuana_topic,
+                                            "match": True
+                                        },
+                                        self.chamomile_topic.slug: {
+                                            "topic": self.chamomile_topic,
+                                            "match": True
+                                        },
+                                    }
                                 },
                                 others_category.slug: {
-                                    self.religion_topic.slug: {
-                                        "topic": self.religion_topic,
-                                        "match": True
-                                    },
-                                    self.gay_marriage_topic.slug: {
-                                        "topic": self.gay_marriage_topic,
-                                        "match": True
+                                    "category": others_category,
+                                    "per_topic": {
+
+                                        self.religion_topic.slug: {
+                                            "topic": self.religion_topic,
+                                            "match": True
+                                        },
+                                        self.gay_marriage_topic.slug: {
+                                            "topic": self.gay_marriage_topic,
+                                            "match": True
+                                        }
                                     }
                                 }
                             },
@@ -323,24 +329,29 @@ class ComparisonTestCase(TestCase):
                            {"person": self.person2,
                             "explanation": {
                                 herbs_category.slug: {
-
-                                    self.marihuana_topic.slug: {
-                                        "topic": self.marihuana_topic,
-                                        "match": True
-                                    },
-                                    self.chamomile_topic.slug: {
-                                        "topic": self.chamomile_topic,
-                                        "match": True
-                                    },
+                                    "category": herbs_category,
+                                    "per_topic": {
+                                        self.marihuana_topic.slug: {
+                                            "topic": self.marihuana_topic,
+                                            "match": True
+                                        },
+                                        self.chamomile_topic.slug: {
+                                            "topic": self.chamomile_topic,
+                                            "match": True
+                                        }
+                                    }
                                 },
                                 others_category.slug: {
-                                    self.religion_topic.slug: {
-                                        "topic": self.religion_topic,
-                                        "match": False
-                                    },
-                                    self.gay_marriage_topic.slug: {
-                                        "topic": self.gay_marriage_topic,
-                                        "match": True
+                                    "category": others_category,
+                                    "per_topic": {
+                                        self.religion_topic.slug: {
+                                            "topic": self.religion_topic,
+                                            "match": False
+                                        },
+                                        self.gay_marriage_topic.slug: {
+                                            "topic": self.gay_marriage_topic,
+                                            "match": True
+                                        }
                                     }
                                 }
                             },
@@ -349,25 +360,29 @@ class ComparisonTestCase(TestCase):
                            {"person": self.person1,
                             "explanation": {
                                 herbs_category.slug: {
-
-                                    self.marihuana_topic.slug: {
-                                        "topic": self.marihuana_topic,
-                                        "match": False
-                                    },
-                                    self.chamomile_topic.slug: {
-                                        "topic": self.chamomile_topic,
-                                        "match": False
-                                    },
+                                    "category": herbs_category,
+                                    "per_topic": {
+                                        self.marihuana_topic.slug: {
+                                            "topic": self.marihuana_topic,
+                                            "match": False
+                                        },
+                                        self.chamomile_topic.slug: {
+                                            "topic": self.chamomile_topic,
+                                            "match": False
+                                        }
+                                    }
                                 },
                                 others_category.slug: {
-
-                                    self.religion_topic.slug: {
-                                        "topic": self.religion_topic,
-                                        "match": True
-                                    },
-                                    self.gay_marriage_topic.slug: {
-                                        "topic": self.gay_marriage_topic,
-                                        "match": True
+                                    "category": others_category,
+                                    "per_topic": {
+                                        self.religion_topic.slug: {
+                                            "topic": self.religion_topic,
+                                            "match": True
+                                        },
+                                        self.gay_marriage_topic.slug: {
+                                            "topic": self.gay_marriage_topic,
+                                            "match": True
+                                        }
                                     }
                                 }
                             },
