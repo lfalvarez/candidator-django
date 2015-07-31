@@ -130,6 +130,7 @@ class ComparisonTestCase(TestCase):
 
     def test_compare_one_on_one(self):
         '''Compare one on one'''
+        self.maxDiff = None
         comparer = Comparer()
         marihuana_position = TakenPosition(
             topic=self.marihuana_topic,
@@ -152,11 +153,15 @@ class ComparisonTestCase(TestCase):
         expected_result = {
             self.marihuana_topic.slug: {
                 "topic": self.marihuana_topic,
-                "match": True
+                "match": True,
+                "my_position": self.marihuana_yes,
+                "their_position": self.marihuana_yes
             },
             self.religion_topic.slug: {
                 "topic": self.religion_topic,
-                "match": False
+                "match": False,
+                "my_position": self.religion_yes,
+                "their_position": self.religion_no
             }
         }
         self.assertEquals(result, expected_result)
@@ -301,11 +306,15 @@ class ComparisonTestCase(TestCase):
                                     "per_topic": {
                                         self.marihuana_topic.slug: {
                                             "topic": self.marihuana_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.marihuana_no,
+                                            'their_position': self.marihuana_no
                                         },
                                         self.chamomile_topic.slug: {
                                             "topic": self.chamomile_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.chamomile_no,
+                                            'their_position': self.chamomile_no
                                         },
                                     }
                                 },
@@ -315,11 +324,15 @@ class ComparisonTestCase(TestCase):
 
                                         self.religion_topic.slug: {
                                             "topic": self.religion_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.religion_no,
+                                            'their_position': self.religion_no
                                         },
                                         self.gay_marriage_topic.slug: {
                                             "topic": self.gay_marriage_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.gay_marriage_yes,
+                                            'their_position': self.gay_marriage_yes
                                         }
                                     }
                                 }
@@ -333,11 +346,15 @@ class ComparisonTestCase(TestCase):
                                     "per_topic": {
                                         self.marihuana_topic.slug: {
                                             "topic": self.marihuana_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.marihuana_no,
+                                            'their_position': self.marihuana_no
                                         },
                                         self.chamomile_topic.slug: {
                                             "topic": self.chamomile_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.chamomile_no,
+                                            'their_position': self.chamomile_no
                                         }
                                     }
                                 },
@@ -346,11 +363,15 @@ class ComparisonTestCase(TestCase):
                                     "per_topic": {
                                         self.religion_topic.slug: {
                                             "topic": self.religion_topic,
-                                            "match": False
+                                            "match": False,
+                                            'my_position': self.religion_no,
+                                            'their_position': self.religion_yes
                                         },
                                         self.gay_marriage_topic.slug: {
                                             "topic": self.gay_marriage_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.gay_marriage_yes,
+                                            'their_position': self.gay_marriage_yes
                                         }
                                     }
                                 }
@@ -364,11 +385,15 @@ class ComparisonTestCase(TestCase):
                                     "per_topic": {
                                         self.marihuana_topic.slug: {
                                             "topic": self.marihuana_topic,
-                                            "match": False
+                                            "match": False,
+                                            'my_position': self.marihuana_no,
+                                            'their_position': self.marihuana_yes
                                         },
                                         self.chamomile_topic.slug: {
                                             "topic": self.chamomile_topic,
-                                            "match": False
+                                            "match": False,
+                                            'my_position': self.chamomile_no,
+                                            'their_position': self.chamomile_yes
                                         }
                                     }
                                 },
@@ -377,11 +402,15 @@ class ComparisonTestCase(TestCase):
                                     "per_topic": {
                                         self.religion_topic.slug: {
                                             "topic": self.religion_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.religion_no,
+                                            'their_position': self.religion_no
                                         },
                                         self.gay_marriage_topic.slug: {
                                             "topic": self.gay_marriage_topic,
-                                            "match": True
+                                            "match": True,
+                                            'my_position': self.gay_marriage_yes,
+                                            'their_position': self.gay_marriage_yes
                                         }
                                     }
                                 }
@@ -424,11 +453,15 @@ class ComparisonTestCase(TestCase):
         expected_result = {
             self.marihuana_topic.slug: {
                 "topic": self.marihuana_topic,
-                "match": True
+                "match": True,
+                "my_position": self.marihuana_yes,
+                "their_position": self.marihuana_yes
             },
             self.religion_topic.slug: {
                 "topic": self.religion_topic,
-                "match": False
+                "match": False,
+                "my_position": None,
+                "their_position": self.religion_no
             }
         }
         self.assertEquals(result, expected_result)

@@ -47,8 +47,11 @@ class Comparer():
             if candidate_taken_position is not None and candidate_taken_position.position is not None:
                 users_taken_position = positions.get(topic.slug, None)
                 external_position = None
+                comparison[topic.slug]['my_position'] = None
                 if users_taken_position:
                     external_position = users_taken_position.position
+                    comparison[topic.slug]['my_position'] = users_taken_position.position
+                comparison[topic.slug]['their_position'] = candidate_taken_position.position
                 comparison[topic.slug].update(self.calculator.determine_match(candidate_taken_position.position,
                                                                               external_position))
             else:
