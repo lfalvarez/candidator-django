@@ -2,7 +2,7 @@ language: python
 python:
         - "2.7"
           #- "3.2" I'd really love this to work but it doesn't
-        - "3.3"
+        - "3.4"
 # command to install dependencies
 install: 
         - "pip install -r test_requirements.txt"
