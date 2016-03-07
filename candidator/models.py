@@ -2,7 +2,10 @@ from django.db import models
 from popolo.models import Person, Link
 from autoslug import AutoSlugField
 from django.utils.encoding import python_2_unicode_compatible
-from django.contrib.contenttypes import generic
+try:
+    from django.contrib.contenttypes.fields import GenericRelation
+except ImportError:
+    from django.contrib.contenttypes.generic import GenericRelation
 
 
 @python_2_unicode_compatible
@@ -38,7 +41,7 @@ class TakenPosition(models.Model):
     position = models.ForeignKey(Position, related_name="taken_positions", null=True, blank=True)
     person = models.ForeignKey(Person, related_name="taken_positions")
     description = models.TextField(blank=True)
-    sources = generic.GenericRelation(Link, help_text="Sources of information")
+    sources = GenericRelation(Link, help_text="Sources of information")
 
     def __str__(self):
         template_str = u'<%s> says <%s> to <%s>'
