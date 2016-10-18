@@ -13,7 +13,7 @@ class InformationHolder():
         self.topics.append(topic)
 
     def add_position(self, position):
-        self.positions[position.topic.slug] = position
+        self.positions[position.topic.id] = position
 
     def add_person(self, person):
         self.persons.append(person)
@@ -43,19 +43,19 @@ class Comparer():
             topics = self.topics
         for topic in topics:
             candidate_taken_position = self.adapter.get_taken_position_by(person, topic)
-            comparison[topic.slug] = {"topic": topic}
+            comparison[topic.id] = {"topic": topic}
             if candidate_taken_position is not None and candidate_taken_position.position is not None:
-                users_taken_position = positions.get(topic.slug, None)
+                users_taken_position = positions.get(topic.id, None)
                 external_position = None
-                comparison[topic.slug]['my_position'] = None
+                comparison[topic.id]['my_position'] = None
                 if users_taken_position:
                     external_position = users_taken_position.position
-                    comparison[topic.slug]['my_position'] = users_taken_position.position
-                comparison[topic.slug]['their_position'] = candidate_taken_position.position
-                comparison[topic.slug].update(self.calculator.determine_match(candidate_taken_position.position,
-                                                                              external_position))
+                    comparison[topic.id]['my_position'] = users_taken_position.position
+                comparison[topic.id]['their_position'] = candidate_taken_position.position
+                comparison[topic.id].update(self.calculator.determine_match(candidate_taken_position.position,
+                                                                            external_position))
             else:
-                comparison[topic.slug].update(self.calculator.determine_not_match())
+                comparison[topic.id].update(self.calculator.determine_not_match())
         return comparison
 
     def compare(self, information_holder):
