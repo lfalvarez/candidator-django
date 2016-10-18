@@ -141,8 +141,8 @@ class ComparisonTestCase(TestCase):
             position=self.religion_yes,
             )
         positions = {
-            self.marihuana_topic.slug: marihuana_position,
-            self.religion_topic.slug: religion_position
+            self.marihuana_topic.id: marihuana_position,
+            self.religion_topic.id: religion_position
         }
         topics = [
             self.marihuana_topic,
@@ -151,13 +151,13 @@ class ComparisonTestCase(TestCase):
         comparer.topics = topics
         result = comparer.one_on_one(self.person1, positions)
         expected_result = {
-            self.marihuana_topic.slug: {
+            self.marihuana_topic.id: {
                 "topic": self.marihuana_topic,
                 "match": True,
                 "my_position": self.marihuana_yes,
                 "their_position": self.marihuana_yes
             },
-            self.religion_topic.slug: {
+            self.religion_topic.id: {
                 "topic": self.religion_topic,
                 "match": False,
                 "my_position": self.religion_yes,
@@ -179,8 +179,8 @@ class ComparisonTestCase(TestCase):
             )
         information_holder.add_position(marihuana_position)
         information_holder.add_position(religion_position)
-        self.assertEquals(information_holder.positions[self.marihuana_topic.slug], marihuana_position)
-        self.assertEquals(information_holder.positions[self.religion_topic.slug], religion_position)
+        self.assertEquals(information_holder.positions[self.marihuana_topic.id], marihuana_position)
+        self.assertEquals(information_holder.positions[self.religion_topic.id], religion_position)
 
         information_holder.add_person(self.person1)
         self.assertEquals(information_holder.persons, [self.person1])
@@ -239,13 +239,13 @@ class ComparisonTestCase(TestCase):
         information_holder.add_position(chamomile_position)
         information_holder.add_position(gay_marriage_position)
         positions_by_herbs = information_holder.positions_by(herbs_category)
-        self.assertEquals(positions_by_herbs[self.marihuana_topic.slug], marihuana_position)
-        self.assertEquals(positions_by_herbs[self.chamomile_topic.slug], chamomile_position)
+        self.assertEquals(positions_by_herbs[self.marihuana_topic.id], marihuana_position)
+        self.assertEquals(positions_by_herbs[self.chamomile_topic.id], chamomile_position)
 
         positions_by_others = information_holder.positions_by(others_category)
 
-        self.assertEquals(positions_by_others[self.religion_topic.slug], religion_position)
-        self.assertEquals(positions_by_others[self.gay_marriage_topic.slug], gay_marriage_position)
+        self.assertEquals(positions_by_others[self.religion_topic.id], religion_position)
+        self.assertEquals(positions_by_others[self.gay_marriage_topic.id], gay_marriage_position)
 
     def test_compare_categories_with_information_holder(self):
         information_holder = InformationHolder()
@@ -304,13 +304,13 @@ class ComparisonTestCase(TestCase):
                                 herbs_category.slug: {
                                     "category": herbs_category,
                                     "per_topic": {
-                                        self.marihuana_topic.slug: {
+                                        self.marihuana_topic.id: {
                                             "topic": self.marihuana_topic,
                                             "match": True,
                                             'my_position': self.marihuana_no,
                                             'their_position': self.marihuana_no
                                         },
-                                        self.chamomile_topic.slug: {
+                                        self.chamomile_topic.id: {
                                             "topic": self.chamomile_topic,
                                             "match": True,
                                             'my_position': self.chamomile_no,
@@ -322,13 +322,13 @@ class ComparisonTestCase(TestCase):
                                     "category": others_category,
                                     "per_topic": {
 
-                                        self.religion_topic.slug: {
+                                        self.religion_topic.id: {
                                             "topic": self.religion_topic,
                                             "match": True,
                                             'my_position': self.religion_no,
                                             'their_position': self.religion_no
                                         },
-                                        self.gay_marriage_topic.slug: {
+                                        self.gay_marriage_topic.id: {
                                             "topic": self.gay_marriage_topic,
                                             "match": True,
                                             'my_position': self.gay_marriage_yes,
@@ -344,13 +344,13 @@ class ComparisonTestCase(TestCase):
                                 herbs_category.slug: {
                                     "category": herbs_category,
                                     "per_topic": {
-                                        self.marihuana_topic.slug: {
+                                        self.marihuana_topic.id: {
                                             "topic": self.marihuana_topic,
                                             "match": True,
                                             'my_position': self.marihuana_no,
                                             'their_position': self.marihuana_no
                                         },
-                                        self.chamomile_topic.slug: {
+                                        self.chamomile_topic.id: {
                                             "topic": self.chamomile_topic,
                                             "match": True,
                                             'my_position': self.chamomile_no,
@@ -361,13 +361,13 @@ class ComparisonTestCase(TestCase):
                                 others_category.slug: {
                                     "category": others_category,
                                     "per_topic": {
-                                        self.religion_topic.slug: {
+                                        self.religion_topic.id: {
                                             "topic": self.religion_topic,
                                             "match": False,
                                             'my_position': self.religion_no,
                                             'their_position': self.religion_yes
                                         },
-                                        self.gay_marriage_topic.slug: {
+                                        self.gay_marriage_topic.id: {
                                             "topic": self.gay_marriage_topic,
                                             "match": True,
                                             'my_position': self.gay_marriage_yes,
@@ -383,13 +383,13 @@ class ComparisonTestCase(TestCase):
                                 herbs_category.slug: {
                                     "category": herbs_category,
                                     "per_topic": {
-                                        self.marihuana_topic.slug: {
+                                        self.marihuana_topic.id: {
                                             "topic": self.marihuana_topic,
                                             "match": False,
                                             'my_position': self.marihuana_no,
                                             'their_position': self.marihuana_yes
                                         },
-                                        self.chamomile_topic.slug: {
+                                        self.chamomile_topic.id: {
                                             "topic": self.chamomile_topic,
                                             "match": False,
                                             'my_position': self.chamomile_no,
@@ -400,13 +400,13 @@ class ComparisonTestCase(TestCase):
                                 others_category.slug: {
                                     "category": others_category,
                                     "per_topic": {
-                                        self.religion_topic.slug: {
+                                        self.religion_topic.id: {
                                             "topic": self.religion_topic,
                                             "match": True,
                                             'my_position': self.religion_no,
                                             'their_position': self.religion_no
                                         },
-                                        self.gay_marriage_topic.slug: {
+                                        self.gay_marriage_topic.id: {
                                             "topic": self.gay_marriage_topic,
                                             "match": True,
                                             'my_position': self.gay_marriage_yes,
@@ -441,7 +441,7 @@ class ComparisonTestCase(TestCase):
             position=self.marihuana_yes,
             )
         positions = {
-            self.marihuana_topic.slug: marihuana_position
+            self.marihuana_topic.id: marihuana_position
         }
         topics = [
             self.marihuana_topic,
@@ -451,13 +451,13 @@ class ComparisonTestCase(TestCase):
         result = comparer.one_on_one(self.person1, positions)
 
         expected_result = {
-            self.marihuana_topic.slug: {
+            self.marihuana_topic.id: {
                 "topic": self.marihuana_topic,
                 "match": True,
                 "my_position": self.marihuana_yes,
                 "their_position": self.marihuana_yes
             },
-            self.religion_topic.slug: {
+            self.religion_topic.id: {
                 "topic": self.religion_topic,
                 "match": False,
                 "my_position": None,
@@ -472,8 +472,8 @@ class ComparisonTestCase(TestCase):
         taken_position.position = None
         taken_position.save()
         result2 = comparer.one_on_one(self.person1, positions)
-        self.assertFalse(result2[self.religion_topic.slug]["match"])
+        self.assertFalse(result2[self.religion_topic.id]["match"])
 
         TakenPosition.objects.filter(topic=self.religion_topic).delete()
         result3 = comparer.one_on_one(self.person1, positions)
-        self.assertFalse(result3[self.religion_topic.slug]["match"])
+        self.assertFalse(result3[self.religion_topic.id]["match"])
