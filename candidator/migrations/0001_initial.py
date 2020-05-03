@@ -32,8 +32,8 @@ class Migration(migrations.Migration):
             name='TakenPosition',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('person', models.ForeignKey(related_name='taken_positions', to='popolo.Person')),
-                ('position', models.ForeignKey(related_name='taken_positions', to='candidator.Position')),
+                ('person', models.ForeignKey(related_name='taken_positions', to='popolo.Person', on_delete=models.CASCADE)),
+                ('position', models.ForeignKey(related_name='taken_positions', to='candidator.Position', on_delete=models.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -43,17 +43,17 @@ class Migration(migrations.Migration):
                 ('label', models.CharField(max_length=512)),
                 ('description', models.TextField(blank=True)),
                 ('slug', autoslug.fields.AutoSlugField(editable=False)),
-                ('category', models.ForeignKey(related_name='topics', to='candidator.Category', null=True)),
+                ('category', models.ForeignKey(related_name='topics', to='candidator.Category', null=True, on_delete=models.CASCADE)),
             ],
         ),
         migrations.AddField(
             model_name='takenposition',
             name='topic',
-            field=models.ForeignKey(related_name='taken_positions', to='candidator.Topic'),
+            field=models.ForeignKey(related_name='taken_positions', to='candidator.Topic', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='position',
             name='topic',
-            field=models.ForeignKey(related_name='positions', to='candidator.Topic'),
+            field=models.ForeignKey(related_name='positions', to='candidator.Topic', on_delete=models.CASCADE),
         ),
     ]

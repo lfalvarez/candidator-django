@@ -7,9 +7,12 @@ setup(
     packages = find_packages(),
     test_suite="runtests.runtests",
     install_requires = [
-        'django-popolo'
+        'mysociety-django-popolo',
+        'six',
+        'django-autoslug'
     ],
     dependency_links=[
-        'http://github.com/openpolis/django-popolo/tarball/master#egg=django-popolo'
+        'https://github.com/mysociety/django-popolo/tarball/master#egg=mysociety-django-popolo',
+
     ],
 )
