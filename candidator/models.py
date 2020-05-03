@@ -1,7 +1,7 @@
 from django.db import models
 from popolo.models import Person, Link
 from autoslug import AutoSlugField
-from django.utils.encoding import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 try:
     from django.contrib.contenttypes.fields import GenericRelation
 except ImportError:
@@ -12,7 +12,7 @@ except ImportError:
 class Topic(models.Model):
     label = models.CharField(max_length=512)
     description = models.TextField(blank=True)
-    category = models.ForeignKey('Category', related_name="topics", null=True)
+    category = models.ForeignKey('Category', related_name="topics", null=True, on_delete=models.CASCADE)
     slug = AutoSlugField(populate_from='label')
 
     def get_taken_position_for(self, person):
@@ -28,7 +28,7 @@ class Topic(models.Model):
 @python_2_unicode_compatible
 class Position(models.Model):
     label = models.CharField(max_length=512)
-    topic = models.ForeignKey(Topic, related_name="positions")
+    topic = models.ForeignKey(Topic, related_name="positions", on_delete=models.CASCADE)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -37,9 +37,9 @@ class Position(models.Model):
 
 @python_2_unicode_compatible
 class TakenPosition(models.Model):
-    topic = models.ForeignKey(Topic, related_name="taken_positions")
-    position = models.ForeignKey(Position, related_name="taken_positions", null=True, blank=True)
-    person = models.ForeignKey(Person, related_name="taken_positions")
+    topic = models.ForeignKey(Topic, related_name="taken_positions", on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, related_name="taken_positions", null=True, blank=True, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, related_name="taken_positions", on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     sources = GenericRelation(Link, help_text="Sources of information")
 

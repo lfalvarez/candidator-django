@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='takenposition',
             name='position',
-            field=models.ForeignKey(related_name='taken_positions', blank=True, to='candidator.Position', null=True),
+            field=models.ForeignKey(related_name='taken_positions', blank=True, to='candidator.Position', null=True, on_delete=models.CASCADE),
         ),
     ]
